@@ -4,6 +4,10 @@
       "restored": true,
       "restoreTime": "2022-11-05T21:50:33.9380688Z"
     },
+    "cosmosdb1": {
+      "restored": true,
+      "restoreTime": "2022-11-05T21:56:39.1193414Z"
+    },
     "storage2": {
       "restored": true,
       "restoreTime": "2022-11-05T21:51:59.8203894Z"
@@ -22,6 +26,11 @@
     }
   },
   "parameters": {
+    "cosmosdb1.subscriptionId": {
+      "Name": "cosmosdb1.subscriptionId",
+      "Type": "subscription",
+      "Value": "b125c7e0-5a63-470d-bd29-c8bb38eec0bd"
+    },
     "storage2.resourceGroupName": {
       "Name": "storage2.resourceGroupName",
       "Type": "resourceGroup",
@@ -36,6 +45,11 @@
       "Name": "mssql2.subscriptionId",
       "Type": "subscription",
       "Value": "b125c7e0-5a63-470d-bd29-c8bb38eec0bd"
+    },
+    "cosmosdb1.resourceGroupName": {
+      "Name": "cosmosdb1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "cs526-assgn-4"
     },
     "storage2.subscriptionId": {
       "Name": "storage2.subscriptionId",

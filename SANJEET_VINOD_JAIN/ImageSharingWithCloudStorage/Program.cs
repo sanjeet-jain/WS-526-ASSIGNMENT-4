@@ -8,10 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Azure;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 /*
  * Add services to the container.
@@ -36,18 +34,18 @@ builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddAzureWebAppDiagnostics();
 
-string connectionString = builder.Configuration.GetConnectionString("ApplicationDb");
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDb");
 // TODO Add database context & enable saving data in the log (not for production use!)
 // For SQL Database, allow for db connection sometimes being lost
 // options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
-    options.EnableSensitiveDataLogging();
+    if (builder.Environment.IsDevelopment()) options.EnableSensitiveDataLogging();
 });
 
 // Replacement for database error page
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+if (builder.Environment.IsDevelopment()) builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // TODO add Identity service
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -70,7 +68,7 @@ builder.Services.AddScoped<ILogContext, LogContext>();
 // Add our own service for managing uploading of images to blob storage
 builder.Services.AddScoped<IImageStorage, ImageStorage>();
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -95,8 +93,8 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        "default",
+        "{controller=Home}/{action=Index}/{id?}");
 });
 
 /*
@@ -112,7 +110,7 @@ using (var serviceScope = app.Services.CreateScope())
     var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
     var logger = serviceProvider.GetRequiredService<ILogger<ApplicationDbInitializer>>();
     var logs = serviceProvider.GetRequiredService<ILogContext>();
-    await new ApplicationDbInitializer(db,logs, logger).SeedDatabase(serviceProvider);
+    await new ApplicationDbInitializer(db, logs, logger).SeedDatabase(serviceProvider);
 }
 
 

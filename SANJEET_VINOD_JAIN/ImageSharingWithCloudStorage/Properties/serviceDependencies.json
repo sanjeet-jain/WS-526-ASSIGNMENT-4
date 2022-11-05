@@ -1,10 +1,5 @@
 {
   "dependencies": {
-    "storage1": {
-      "type": "storage",
-      "connectionId": "ConnectionStrings:LogEntryDb",
-      "dynamicId": null
-    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:ApplicationDb",
@@ -22,6 +17,15 @@
       "type": "storage",
       "connectionId": "ImageDb:blob",
       "dynamicId": null
+    },
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "123",
+      "dynamicId": null
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "ConnectionStrings:LogEntryDb"
     }
   }
 }
