@@ -48,6 +48,14 @@
               "target": "Package",
               "version": "[12.14.1, )"
             },
+            "Azure.Storage.Files.Shares": {
+              "target": "Package",
+              "version": "[12.1.0, )"
+            },
+            "Azure.Storage.Queues": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.10, )"
@@ -60,6 +68,10 @@
               "target": "Package",
               "version": "[6.0.10, )"
             },
+            "Microsoft.Azure.Cosmos": {
+              "target": "Package",
+              "version": "[3.21.0, )"
+            },
             "Microsoft.Azure.Cosmos.Table": {
               "target": "Package",
               "version": "[1.0.8, )"
@@ -67,6 +79,10 @@
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
               "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Cosmos": {
+              "target": "Package",
+              "version": "[6.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -77,6 +93,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.10, )"
+            },
+            "Microsoft.Extensions.Azure": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",

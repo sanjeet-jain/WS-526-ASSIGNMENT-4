@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Azure;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -39,13 +40,27 @@ string connectionString = builder.Configuration.GetConnectionString("Application
 // TODO Add database context & enable saving data in the log (not for production use!)
 // For SQL Database, allow for db connection sometimes being lost
 // options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
-
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+    options.EnableSensitiveDataLogging();
+});
 
 // Replacement for database error page
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // TODO add Identity service
-
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireDigit = false;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 // Add storage options as a service that can be injected
 builder.Services.Configure<StorageOptions>(builder.Configuration.GetSection(StorageOptions.Storage));
 
@@ -90,6 +105,15 @@ app.UseEndpoints(endpoints =>
  * More on dependency injection: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection
  * More on DbContext lifetime: https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/
  */
+using (var serviceScope = app.Services.CreateScope())
+{
+    var serviceProvider = serviceScope.ServiceProvider;
+
+    var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
+    var logger = serviceProvider.GetRequiredService<ILogger<ApplicationDbInitializer>>();
+    var logs = serviceProvider.GetRequiredService<ILogContext>();
+    await new ApplicationDbInitializer(db,logs, logger).SeedDatabase(serviceProvider);
+}
 
 
 /*

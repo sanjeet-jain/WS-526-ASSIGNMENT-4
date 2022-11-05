@@ -9,13 +9,18 @@
       "ImageSharingWithCloudStorage/1.0.0": {
         "dependencies": {
           "Azure.Storage.Blobs": "12.14.1",
+          "Azure.Storage.Files.Shares": "12.1.0",
+          "Azure.Storage.Queues": "12.2.0",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.10",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.10",
           "Microsoft.AspNetCore.Identity.UI": "6.0.10",
+          "Microsoft.Azure.Cosmos": "3.21.0",
           "Microsoft.Azure.Cosmos.Table": "1.0.8",
           "Microsoft.EntityFrameworkCore.Analyzers": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Cosmos": "6.0.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.10",
+          "Microsoft.Extensions.Azure": "1.0.0",
           "Microsoft.Extensions.Configuration": "6.0.1",
           "Microsoft.Extensions.Configuration.Binder": "6.0.0",
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
@@ -42,6 +47,22 @@
           }
         }
       },
+      "Azure.Identity/1.0.0": {
+        "dependencies": {
+          "Azure.Core": "1.25.0",
+          "Microsoft.Identity.Client": "4.21.1",
+          "System.Memory": "4.5.4",
+          "System.Security.Cryptography.ProtectedData": "4.7.0",
+          "System.Text.Json": "6.0.0",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Identity.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.19.52905"
+          }
+        }
+      },
       "Azure.Storage.Blobs/12.14.1": {
         "dependencies": {
           "Azure.Storage.Common": "12.13.0",
@@ -63,6 +84,31 @@
           "lib/netstandard2.0/Azure.Storage.Common.dll": {
             "assemblyVersion": "12.13.0.0",
             "fileVersion": "12.1300.22.51204"
+          }
+        }
+      },
+      "Azure.Storage.Files.Shares/12.1.0": {
+        "dependencies": {
+          "Azure.Core": "1.25.0",
+          "Azure.Storage.Common": "12.13.0",
+          "System.Text.Json": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Storage.Files.Shares.dll": {
+            "assemblyVersion": "12.1.0.0",
+            "fileVersion": "12.100.20.11104"
+          }
+        }
+      },
+      "Azure.Storage.Queues/12.2.0": {
+        "dependencies": {
+          "Azure.Core": "1.25.0",
+          "Azure.Storage.Common": "12.13.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Storage.Queues.dll": {
+            "assemblyVersion": "12.2.0.0",
+            "fileVersion": "12.200.20.11104"
           }
         }
       },
@@ -128,6 +174,52 @@
           }
         }
       },
+      "Microsoft.Azure.Cosmos/3.21.0": {
+        "dependencies": {
+          "Azure.Core": "1.25.0",
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
+          "Microsoft.Bcl.HashCode": "1.1.0",
+          "Newtonsoft.Json": "10.0.2",
+          "System.Buffers": "4.5.1",
+          "System.Collections.Immutable": "6.0.0",
+          "System.Configuration.ConfigurationManager": "4.7.0",
+          "System.Memory": "4.5.4",
+          "System.Numerics.Vectors": "4.5.0",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
+          "System.Threading.Tasks.Extensions": "4.5.4",
+          "System.ValueTuple": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.Cosmos.Client.dll": {
+            "assemblyVersion": "3.21.0.0",
+            "fileVersion": "3.21.0.0"
+          },
+          "lib/netstandard2.0/Microsoft.Azure.Cosmos.Core.dll": {
+            "assemblyVersion": "2.11.0.0",
+            "fileVersion": "2.11.0.0"
+          },
+          "lib/netstandard2.0/Microsoft.Azure.Cosmos.Direct.dll": {
+            "assemblyVersion": "3.21.1.0",
+            "fileVersion": "3.21.1.0"
+          },
+          "lib/netstandard2.0/Microsoft.Azure.Cosmos.Serialization.HybridRow.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win-x64/native/Cosmos.CRTCompat.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "2.0.0.0"
+          },
+          "runtimes/win-x64/native/Microsoft.Azure.Cosmos.ServiceInterop.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "2.17.0.0"
+          }
+        }
+      },
       "Microsoft.Azure.Cosmos.Table/1.0.8": {
         "dependencies": {
           "Microsoft.Azure.DocumentDB.Core": "2.11.2",
@@ -184,6 +276,14 @@
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "4.700.20.21406"
+          }
+        }
+      },
+      "Microsoft.Bcl.HashCode/1.1.0": {
+        "runtime": {
+          "lib/netcoreapp2.1/Microsoft.Bcl.HashCode.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.19.56404"
           }
         }
       },
@@ -272,6 +372,18 @@
         }
       },
       "Microsoft.EntityFrameworkCore.Analyzers/6.0.10": {},
+      "Microsoft.EntityFrameworkCore.Cosmos/6.0.1": {
+        "dependencies": {
+          "Microsoft.Azure.Cosmos": "3.21.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.EntityFrameworkCore.Cosmos.dll": {
+            "assemblyVersion": "6.0.1.0",
+            "fileVersion": "6.0.121.56712"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.Design/6.0.10": {
         "dependencies": {
           "Humanizer.Core": "2.8.26",
@@ -311,6 +423,23 @@
       "Microsoft.EntityFrameworkCore.Tools/6.0.10": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "6.0.10"
+        }
+      },
+      "Microsoft.Extensions.Azure/1.0.0": {
+        "dependencies": {
+          "Azure.Core": "1.25.0",
+          "Azure.Identity": "1.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.2",
+          "Microsoft.Extensions.Options": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Azure.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.19.55406"
+          }
         }
       },
       "Microsoft.Extensions.Caching.Abstractions/6.0.0": {
@@ -762,15 +891,7 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.Buffers/4.3.0": {
-        "dependencies": {
-          "System.Diagnostics.Debug": "4.3.0",
-          "System.Diagnostics.Tracing": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Threading": "4.3.0"
-        }
-      },
+      "System.Buffers/4.5.1": {},
       "System.Collections/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -1003,7 +1124,7 @@
       "System.IO.Compression/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
-          "System.Buffers": "4.3.0",
+          "System.Buffers": "4.5.1",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
           "System.IO": "4.3.0",
@@ -1021,7 +1142,7 @@
       },
       "System.IO.Compression.ZipFile/4.3.0": {
         "dependencies": {
-          "System.Buffers": "4.3.0",
+          "System.Buffers": "4.5.1",
           "System.IO": "4.3.0",
           "System.IO.Compression": "4.3.0",
           "System.IO.FileSystem": "4.3.0",
@@ -1099,6 +1220,7 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.Memory/4.5.4": {},
       "System.Memory.Data/1.0.2": {
         "dependencies": {
           "System.Text.Encodings.Web": "6.0.0",
@@ -1750,6 +1872,13 @@
       "path": "azure.core/1.25.0",
       "hashPath": "azure.core.1.25.0.nupkg.sha512"
     },
+    "Azure.Identity/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3VyxRL2NA5kSzLz+PJwpZN+Kv/bnh3dy0PISgAAXbRK1EX0wWU3BiIh55vmx9lvUyneWGzVks9F7bygq7Q7qkw==",
+      "path": "azure.identity/1.0.0",
+      "hashPath": "azure.identity.1.0.0.nupkg.sha512"
+    },
     "Azure.Storage.Blobs/12.14.1": {
       "type": "package",
       "serviceable": true,
@@ -1763,6 +1892,20 @@
       "sha512": "sha512-jDv8xJWeZY2Er9zA6QO25BiGolxg87rItt9CwAp7L/V9EPJeaz8oJydaNL9Wj0+3ncceoMgdiyEv66OF8YUwWQ==",
       "path": "azure.storage.common/12.13.0",
       "hashPath": "azure.storage.common.12.13.0.nupkg.sha512"
+    },
+    "Azure.Storage.Files.Shares/12.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qF0nsCNh+SqUvRyx0zG8teJsEImeFlO5uqpcWtursupvhyG+kBJOuSRjUQDoK1Uw4tS2IxkrTV1R5vXP03KGcA==",
+      "path": "azure.storage.files.shares/12.1.0",
+      "hashPath": "azure.storage.files.shares.12.1.0.nupkg.sha512"
+    },
+    "Azure.Storage.Queues/12.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-i78L7cu95JZPKHvRPA/Xnom7bVyxbnsn/KtFdKnRwaBRUhnuM7xPBTzpReZB7+gw4i6s1VJDSbD2xLJXKi+XNg==",
+      "path": "azure.storage.queues/12.2.0",
+      "hashPath": "azure.storage.queues.12.2.0.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",
@@ -1806,6 +1949,13 @@
       "path": "microsoft.aspnetcore.identity.ui/6.0.10",
       "hashPath": "microsoft.aspnetcore.identity.ui.6.0.10.nupkg.sha512"
     },
+    "Microsoft.Azure.Cosmos/3.21.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Nl9eYzUOnm7rUwYJUhkrmQbddpfl5yQ71DkfkydNmlmmNniz5jkc8Y2+KTJoEC4ih5h5Kz7dmWeajnQA2JoZ6Q==",
+      "path": "microsoft.azure.cosmos/3.21.0",
+      "hashPath": "microsoft.azure.cosmos.3.21.0.nupkg.sha512"
+    },
     "Microsoft.Azure.Cosmos.Table/1.0.8": {
       "type": "package",
       "serviceable": true,
@@ -1826,6 +1976,13 @@
       "sha512": "sha512-yuvf07qFWFqtK3P/MRkEKLhn5r2UbSpVueRziSqj0yJQIKFwG1pq9mOayK3zE5qZCTs0CbrwL9M6R8VwqyGy2w==",
       "path": "microsoft.bcl.asyncinterfaces/1.1.1",
       "hashPath": "microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512"
+    },
+    "Microsoft.Bcl.HashCode/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-J2G1k+u5unBV+aYcwxo94ip16Rkp65pgWFb0R6zwJipzWNMgvqlWeuI7/+R+e8bob66LnSG+llLJ+z8wI94cHg==",
+      "path": "microsoft.bcl.hashcode/1.1.0",
+      "hashPath": "microsoft.bcl.hashcode.1.1.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.5.0": {
       "type": "package",
@@ -1869,6 +2026,13 @@
       "path": "microsoft.entityframeworkcore.analyzers/6.0.10",
       "hashPath": "microsoft.entityframeworkcore.analyzers.6.0.10.nupkg.sha512"
     },
+    "Microsoft.EntityFrameworkCore.Cosmos/6.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rDMVv/wjLuBtNepPyAGxC9E0PusuMv5r9K6Ms7vJ0WObLxiWohlggxjI5RGbdbFCk5wrvCIRvuciDiopwEdODQ==",
+      "path": "microsoft.entityframeworkcore.cosmos/6.0.1",
+      "hashPath": "microsoft.entityframeworkcore.cosmos.6.0.1.nupkg.sha512"
+    },
     "Microsoft.EntityFrameworkCore.Design/6.0.10": {
       "type": "package",
       "serviceable": true,
@@ -1896,6 +2060,13 @@
       "sha512": "sha512-LWQvCb3lmTxkcnzO8H0ib0Ot/Pow9Kubt2iqvhhAHEbhs7SS1ygB938EpmuD9o1yyyliAg6FHln5o6jVfEkdyQ==",
       "path": "microsoft.entityframeworkcore.tools/6.0.10",
       "hashPath": "microsoft.entityframeworkcore.tools.6.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Azure/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3mKCSxklqThrGg7UQrgf2cw6z+QWWit4SvOvTI5m6TvqfuqLvJqwmrg/9i6N8Ncs0dUoue2Tdp+GcnqHrFTDXA==",
+      "path": "microsoft.extensions.azure/1.0.0",
+      "hashPath": "microsoft.extensions.azure.1.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Caching.Abstractions/6.0.0": {
       "type": "package",
@@ -2296,12 +2467,12 @@
       "path": "system.appcontext/4.3.0",
       "hashPath": "system.appcontext.4.3.0.nupkg.sha512"
     },
-    "System.Buffers/4.3.0": {
+    "System.Buffers/4.5.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ratu44uTIHgeBeI0dE8DWvmXVBSo4u7ozRZZHOMmK/JPpYyo0dAfgSiHlpiObMQ5lEtEyIXA40sKRYg5J6A8uQ==",
-      "path": "system.buffers/4.3.0",
-      "hashPath": "system.buffers.4.3.0.nupkg.sha512"
+      "sha512": "sha512-Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg==",
+      "path": "system.buffers/4.5.1",
+      "hashPath": "system.buffers.4.5.1.nupkg.sha512"
     },
     "System.Collections/4.3.0": {
       "type": "package",
@@ -2512,6 +2683,13 @@
       "sha512": "sha512-Yn/WfYe9RoRfmSLvUt2JerP0BTGGykCZkQPgojaxgzF2N0oPo+/AhB8TXOpdCcNlrG3VRtsamtK2uzsp3cqRVw==",
       "path": "system.linq.queryable/4.0.1",
       "hashPath": "system.linq.queryable.4.0.1.nupkg.sha512"
+    },
+    "System.Memory/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
+      "path": "system.memory/4.5.4",
+      "hashPath": "system.memory.4.5.4.nupkg.sha512"
     },
     "System.Memory.Data/1.0.2": {
       "type": "package",

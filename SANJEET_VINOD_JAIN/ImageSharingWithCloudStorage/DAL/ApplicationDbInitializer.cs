@@ -51,7 +51,17 @@ namespace ImageSharingWithCloudStorage.DAL
             }
 
             // TODO add other roles
+            idResult = await CreateRole(serviceProvider, "Admin");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create Admin role!");
+            }
 
+            idResult = await CreateRole(serviceProvider, "Approver");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create Approver role!");
+            }
 
             logger.LogInformation("Adding user: jfk");
             idResult = await CreateAccount(serviceProvider, "jfk@example.org", "jfk123", "Admin");

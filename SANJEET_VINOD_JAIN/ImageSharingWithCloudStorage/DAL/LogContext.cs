@@ -7,6 +7,7 @@ using Microsoft.Azure.Cosmos.Table;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ImageSharingWithCloudStorage.DAL
 {
@@ -25,7 +26,8 @@ namespace ImageSharingWithCloudStorage.DAL
             /*
              * TODO Initialize the table.  The connection string is logEntryDb in options.
              */
-
+            string connectionString = options.Value.LogEntryDb;
+            this.table = GetTable(connectionString);
 
         }
 
@@ -56,9 +58,10 @@ namespace ImageSharingWithCloudStorage.DAL
             // Retrieve storage account information from connection string.
             CloudStorageAccount storageAccount = CreateStorageAccountFromConnectionString(storageConnectionString);
 
-            CloudTable table = null;
             // TODO Create a table client for interacting with the table service 
-
+            var client = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
+            CloudTable table = client.GetTableReference(LOG_TABLE_NAME);
+            table.CreateIfNotExists();
 
             return table;
         }
@@ -87,11 +90,11 @@ namespace ImageSharingWithCloudStorage.DAL
 
             logger.LogInformation("Adding log entry for image: {0}", image.Id);
 
-            TableResult result = null;
 
             // TODO add a log entry for this image view
+            var insertOperation = TableOperation.Insert(entry);
+            TableResult result = await table.ExecuteAsync(insertOperation);
 
-            
             if (result.RequestCharge.HasValue)
             {
                 logger.LogInformation("Added log entry with charge {0}", result.RequestCharge.Value);
