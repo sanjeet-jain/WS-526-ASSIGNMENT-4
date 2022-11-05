@@ -36,12 +36,12 @@ namespace ImageSharingWithCloudStorage.DAL
              */
             await logs.CreateTableAsync();
 
-            db.Database.Migrate();
+            await db.Database.MigrateAsync();
 
             db.RemoveRange(db.Images);
             db.RemoveRange(db.Tags);
             db.RemoveRange(db.Users);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             logger.LogInformation("Adding role: User");
             var idResult = await CreateRole(serviceProvider, "User");
@@ -78,7 +78,26 @@ namespace ImageSharingWithCloudStorage.DAL
             }
 
             // TODO add other users and assign more roles
+            logger.LogInformation("Adding user: sanjeet");
+            idResult = await CreateAccount(serviceProvider, "sanjeet@sit.edu", "sit123", "User");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create sanjeet user!");
+            }
 
+            logger.LogInformation("Adding user: admin");
+            idResult = await CreateAccount(serviceProvider, "admin@sit.edu", "sit123", "Admin");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create sanjeet user!");
+            }
+
+            logger.LogInformation("Adding user: app");
+            idResult = await CreateAccount(serviceProvider, "app@sit.edu", "sit123", "Approver");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create sanjeet user!");
+            }
 
 
             Tag portrait = new Tag { Name = "portrait" };
@@ -87,8 +106,12 @@ namespace ImageSharingWithCloudStorage.DAL
             db.Tags.Add(architecture);
 
             // TODO add other tags
+            Tag custom = new Tag { Name = "custom" };
+            db.Tags.Add(custom);
 
-            db.SaveChanges();
+
+            await db.SaveChangesAsync();
+
 
         }
 
