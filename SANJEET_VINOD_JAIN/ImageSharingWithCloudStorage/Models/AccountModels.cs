@@ -39,7 +39,7 @@ public class RegisterModel
 {
     [Required]
     [Display(Name = "Email")]
-    [RegularExpression("[a-z]+@[a-z]*[0-9]*.com", ErrorMessage = "enter valid email")]
+    [EmailAddress(ErrorMessage = "enter Valid Email Address")]
     public string Email { get; set; }
 
     [Required]
