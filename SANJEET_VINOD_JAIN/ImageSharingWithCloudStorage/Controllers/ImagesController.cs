@@ -108,7 +108,8 @@ namespace ImageSharingWithCloudStorage.Controllers
             await db.Images.AddAsync(image);
             await db.SaveChangesAsync();
             logger.LogDebug("Image {0} successfully uploaded for user {1}",image.Id,user.UserName);
-            await this.logs.AddLogEntryAsync(user.UserName, imageView);
+            string thisUser = this.User.Identity.Name;
+            await logs.AddLogEntryAsync(thisUser, imageView);
             // end TODO
 
             // Save image file on disk
@@ -208,7 +209,8 @@ namespace ImageSharingWithCloudStorage.Controllers
             }
 
             logger.LogDebug("Saving changes to image " + Id);
-            await this.logs.AddLogEntryAsync(user.UserName, imageView);
+            string thisUser = this.User.Identity.Name;
+            await logs.AddLogEntryAsync(thisUser, imageView);
 
             Image image = db.Images.Find(Id);
             if (image == null)

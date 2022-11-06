@@ -63,6 +63,14 @@ namespace ImageSharingWithCloudStorage.DAL
                 logger.LogError("Failed to create Approver role!");
             }
 
+            idResult = await CreateRole(serviceProvider, "Supervisor");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create Supervisor role!");
+            }
+            
+            //TODO end
+
             logger.LogInformation("Adding user: jfk");
             idResult = await CreateAccount(serviceProvider, "jfk@example.org", "jfk123", "Admin");
             if (!idResult.Succeeded)
@@ -89,16 +97,22 @@ namespace ImageSharingWithCloudStorage.DAL
             idResult = await CreateAccount(serviceProvider, "admin@sit.edu", "sit123", "Admin");
             if (!idResult.Succeeded)
             {
-                logger.LogError("Failed to create sanjeet user!");
+                logger.LogError("Failed to create admin user!");
             }
 
             logger.LogInformation("Adding user: app");
             idResult = await CreateAccount(serviceProvider, "app@sit.edu", "sit123", "Approver");
             if (!idResult.Succeeded)
             {
-                logger.LogError("Failed to create sanjeet user!");
+                logger.LogError("Failed to create app user!");
             }
-
+            
+            logger.LogInformation("Adding user: sup");
+            idResult = await CreateAccount(serviceProvider, "sup@sit.edu", "sit123", "Supervisor");
+            if (!idResult.Succeeded)
+            {
+                logger.LogError("Failed to create sup user!");
+            }
 
             Tag portrait = new Tag { Name = "portrait" };
             db.Tags.Add(portrait);
