@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "mssql1": {
-      "secretStore": "LocalSecretsFile",
-      "type": "mssql.local",
-      "connectionId": "ConnectionStrings:ApplicationDb",
-      "dynamicId": null
-    },
     "mssql2": {
       "secretStore": null,
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/cs-526/databases/ApplicationDb",
@@ -16,13 +10,6 @@
       "type": "secrets.user",
       "dynamicId": null
     },
-    "storage2": {
-      "secretStore": "LocalSecretsFile",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/imagesharingcs526",
-      "type": "storage.azure",
-      "connectionId": "ImageDb:blob",
-      "dynamicId": null
-    },
     "cosmosdb1": {
       "secretStore": null,
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.DocumentDB/databaseAccounts/cs-526-test-cosmos",
@@ -30,11 +17,12 @@
       "connectionId": "123",
       "dynamicId": null
     },
-    "storage1": {
+    "storage3": {
       "secretStore": null,
-      "resourceId": null,
-      "type": "storage.emulator",
-      "connectionId": "ConnectionStrings:LogEntryDb"
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/imagesharingcs526",
+      "type": "storage.azure",
+      "connectionId": "ConnectionStrings:ImageDb",
+      "dynamicId": null
     }
   }
 }
