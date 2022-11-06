@@ -47,6 +47,8 @@ namespace ImageSharingWithCloudStorage.Controllers
             CheckAda();
 
             ViewBag.Message = "";
+            ViewBag.ImageNotUploaded = "";
+            ViewBag.ImageNotUploaded = false;
             ImageView imageView = new ImageView();
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
             return View(imageView);
@@ -59,6 +61,8 @@ namespace ImageSharingWithCloudStorage.Controllers
             CheckAda();
 
             await TryUpdateModelAsync(imageView);
+            ViewBag.ImageNotUploaded = false;
+            ViewBag.ImageErrorMessage = "";
 
             if (!ModelState.IsValid)
             {
@@ -304,9 +308,10 @@ namespace ImageSharingWithCloudStorage.Controllers
             // TODO Return form for selecting a user from a drop-down list
             var user = await GetLoggedInUser();
 
-            IList<Image> images = ApprovedImages().Include(im => im.User).Include(im => im.Tag).ToList();
+            var userView = new ListByUserModel();
+            userView.Users = new SelectList(ApprovedImages().Include(im => im.User).Include(im => im.Tag).ToList());
             ViewBag.Username = user.UserName;
-            return View(images);
+            return View(userView);
             // End TODO
 
         }

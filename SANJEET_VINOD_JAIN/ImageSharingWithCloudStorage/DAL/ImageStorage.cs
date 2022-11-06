@@ -15,7 +15,7 @@ namespace ImageSharingWithCloudStorage.DAL
     public class ImageStorage : IImageStorage
     {
 
-        public const string ACCOUNT = "imagesharing";
+        public const string ACCOUNT = "imagesharingcs526";
         public const string CONTAINER = "images";
 
         protected readonly IWebHostEnvironment hostingEnvironment;
@@ -54,7 +54,7 @@ namespace ImageSharingWithCloudStorage.DAL
 
         protected string BlobUri(int imageId)
         {
-            return containerClient.Uri + "/" + CONTAINER + "/" + BlobName(imageId);
+            return containerClient.Uri + "/" + BlobName(imageId);
         }
 
         public async Task SaveFileAsync(IFormFile imageFile, int imageId)
@@ -63,12 +63,12 @@ namespace ImageSharingWithCloudStorage.DAL
 
             BlobHttpHeaders headers = new BlobHttpHeaders();
             headers.ContentType = "image/jpeg";
+            
 
             // TODO upload data to blob storage
             var blob = containerClient.GetBlobClient(BlobName(imageId));
             using (var DestinationStream = imageFile.OpenReadStream())
             {
-
                 await blob.UploadAsync(DestinationStream, headers);
             }
         }

@@ -45,6 +45,7 @@ namespace ImageSharingWithCloudStorage.Models
     {
         [Required]
         [Display(Name = "Email")]
+        [RegularExpression("[a-z]+@[a-z]*[0-9]*.com",ErrorMessage = "enter valid email")]
         public string Email { get; set; }
 
         [Required]
