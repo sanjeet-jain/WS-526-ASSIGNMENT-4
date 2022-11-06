@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithCloudStorage.Models.ManageModel
+﻿@model ManageModel
 
 @{
     ViewBag.Title = "Update Users";
@@ -21,7 +21,7 @@
             {
                 <tr>
                     <td>
-                        <input type="hidden" asp-for="Users[i].Value" />
+                        <input type="hidden" asp-for="Users[i].Value"/>
                         @Model.Users[i].Text
                     </td>
                     <td>
@@ -41,4 +41,3 @@
     <p>@ViewBag.Message</p>
 
 </form>
-

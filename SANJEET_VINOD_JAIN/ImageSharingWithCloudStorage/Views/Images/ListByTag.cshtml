@@ -1,4 +1,4 @@
-﻿@model ImageSharingWithCloudStorage.Models.ListByTagModel
+﻿@model ListByTagModel
 
 @{
     ViewBag.Title = "List Images By Tag";
@@ -11,13 +11,13 @@
     <fieldset>
         <legend>Choose a tag</legend>
         <p>
-            Tag: 
+            Tag:
             <select asp-for="Id" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
         </p>
         <p>
-            <input type="submit" value="List" />
+            <input type="submit" value="List"/>
         </p>
     </fieldset>
 

@@ -1,17 +1,15 @@
-﻿namespace ImageSharingWithCloudStorage.DAL
+﻿namespace ImageSharingWithCloudStorage.DAL;
+/*
+ * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options
+ */
+
+public class StorageOptions
 {
-    /*
-     * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options
-     */
+    public const string Storage = "ConnectionStrings";
 
-    public class StorageOptions
-    {
-        public const string Storage = "ConnectionStrings";
+    public string ApplicationDb { get; set; }
 
-        public string ApplicationDb { get; set; }
+    public string LogEntryDb { get; set; }
 
-        public string LogEntryDb { get; set; }
-
-        public string ImageDb { get; set; }
-    }
+    public string ImageDb { get; set; }
 }
