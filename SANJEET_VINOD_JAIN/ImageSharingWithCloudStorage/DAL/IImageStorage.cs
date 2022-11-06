@@ -7,6 +7,7 @@ namespace ImageSharingWithCloudStorage.DAL
     public interface IImageStorage
     {
         public Task SaveFileAsync(IFormFile imageFile, int imageId);
+        public Task DeleteFileAsync(int imageId);
 
         public string ImageUri(IUrlHelper urlHelper, int imageId);
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageSharingWithCloudStorage.Controllers
 {
-    // TODO 
+    // TODO-DONE
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class AccountController : BaseController
     {
         protected SignInManager<ApplicationUser> signInManager;
@@ -40,16 +43,19 @@ namespace ImageSharingWithCloudStorage.Controllers
         }
 
 
-        // TODO 
-
+        // TODO-DONE 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Register()
         {
             CheckAda();
             return View();
         }
 
-        // TODO 
-
+        // TODO-DONE 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterModel model)
         {
             CheckAda();
@@ -58,9 +64,22 @@ namespace ImageSharingWithCloudStorage.Controllers
             {
                 logger.LogDebug("Registering user: " + model.Email);
                 IdentityResult result = null;
-                // TODO register the user from the model, and log them in
+                // TODO-DONE register the user from the model, and log them in
+                var user = new ApplicationUser(model.Email, model.ADA);
+                result = await userManager.CreateAsync(user, model.Password);
 
-
+                if (result.Succeeded)
+                {
+                    SaveADACookie(model.ADA);
+                    await signInManager.SignInAsync(user, false);
+                    logger.LogDebug("Registration Success");
+                    return RedirectToAction("Index", "Home", new { model.Email });
+                }
+                else
+                {
+                    logger.LogDebug("Registration Failed");
+                    ModelState.AddModelError(string.Empty, "Registration failed");
+                }
 
             }
 
@@ -69,8 +88,9 @@ namespace ImageSharingWithCloudStorage.Controllers
 
         }
 
-        // TODO 
-
+        // TODO-DONE 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
             CheckAda();
@@ -78,8 +98,10 @@ namespace ImageSharingWithCloudStorage.Controllers
             return View();
         }
 
-        // TODO 
-
+        // TODO-DONE 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model, string returnUrl)
         {
             CheckAda();
@@ -88,14 +110,33 @@ namespace ImageSharingWithCloudStorage.Controllers
                 return View(model);
             }
 
-            // TODO log in the user from the model (make sure they are still active)
-
+            // TODO-DONE log in the user from the model (make sure they are still active)
+            var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            if (result.Succeeded)
+            {
+                var user = await userManager.FindByNameAsync(model.UserName);
+                if (user.Active)
+                {
+                    logger.LogDebug("Login Success for {0}", model.UserName);
+                    SaveADACookie(user.ADA);
+                    return Redirect(returnUrl ?? "/");
+                }
+                else
+                {
+                    logger.LogDebug("Login Fail for {0}", model.UserName);
+                    await signInManager.SignOutAsync();
+                    ViewBag.Message = "User is INACTIVE!";
+                    return View(model);
+                }
+            }
+            logger.LogDebug("Login Fail for {0}", model.UserName);
+            ViewBag.Message = "Incorrect Credentials";
 
             return View(model);
         }
 
-        // TODO 
-
+        // TODO-DONE 
+        [HttpGet]
         public ActionResult Password(PasswordMessageId? message)
         {
             CheckAda();
@@ -108,8 +149,9 @@ namespace ImageSharingWithCloudStorage.Controllers
             return View();
         }
 
-        // TODO 
-
+        // TODO-DONE 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Password(LocalPasswordModel model)
         {
             CheckAda();
@@ -119,16 +161,31 @@ namespace ImageSharingWithCloudStorage.Controllers
             {
                 IdentityResult idResult = null; ;
 
-                // TODO change the password
-
-
-                if (idResult.Succeeded)
+                // TODO-DONE change the password
+                var user = await GetLoggedInUser();
+                if (user == null)
                 {
-                    return RedirectToAction("Password", new { Message = PasswordMessageId.ChangePasswordSuccess });
+                    logger.LogDebug("Access Denied Error for {0}", user.UserName);
+                    return RedirectToAction("AccessDenied");
+                }
+
+                var checkPassword = await userManager.CheckPasswordAsync(user, model.OldPassword);
+                if (checkPassword)
+                {
+                    var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+                    idResult = await userManager.ResetPasswordAsync(user, resetToken, model.NewPassword);
+
+                    if (idResult.Succeeded)
+                    {
+                        logger.LogDebug("Password reset success for {0}", user.UserName);
+                        return RedirectToAction("Password", new { Message = PasswordMessageId.ChangePasswordSuccess });
+                    }
+                    ModelState.AddModelError("", "The new password is invalid.");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The new password is invalid.");
+                    logger.LogDebug("Incorrect Password attempt for {0}", user.UserName);
+                    ModelState.AddModelError("OldPassword", "The old password is invalid.");
                 }
             }
 
@@ -136,8 +193,9 @@ namespace ImageSharingWithCloudStorage.Controllers
             return View(model);
         }
 
-        // TODO 
-
+        // TODO-DONE
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Manage()
         {
             CheckAda();
@@ -154,8 +212,10 @@ namespace ImageSharingWithCloudStorage.Controllers
             return View(model);
         }
 
-        // TODO 
-
+        // TODO-DONE
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Manage(ManageModel model)
         {
             CheckAda();
@@ -173,7 +233,8 @@ namespace ImageSharingWithCloudStorage.Controllers
                     foreach (Image image in images)
                     {
                         // TODO Remove the image in blob storage.
-
+                        await this.images.DeleteFileAsync(image.Id);
+                        db.Images.Remove(image);
                     }
                     user.Active = false;
                 }
@@ -192,18 +253,27 @@ namespace ImageSharingWithCloudStorage.Controllers
             return View(model);
         }
 
-        // TODO 
+        // TODO-DONE 
+        [HttpGet]
         public async Task<IActionResult> Logoff()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AccessDenied()
+        {
+            CheckAda();
+            return View();
+        }
 
         protected void SaveADACookie(bool value)
         {
-            // TODO save the value in a cookie field key
-
+            // TODO-DONE save the value in a cookie field key
+            var options = new CookieOptions
+                { IsEssential = true, Secure = true, SameSite = SameSiteMode.None, Expires = DateTime.Now.AddMonths(3) };
+            Response.Cookies.Append("ADA", value.ToString().ToLower(), options);
         }
 
         public enum PasswordMessageId

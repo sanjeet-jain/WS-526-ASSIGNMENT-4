@@ -63,28 +63,52 @@ namespace ImageSharingWithCloudStorage.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Message = "Please correct the errors in the form!";
-                ViewBag.Tags = new SelectList(db.Tags, "Id", "Name", 1);
-                return View();
-            }
+                ViewBag.ImageErrorMessage = "No image file specified!";
+                ViewBag.ImageNotUploaded = true;
+                if (ModelState["DateTaken"]?.Errors.Count > 0)
+                {
+                    ModelState["DateTaken"].Errors.Clear();
+                    ModelState.AddModelError("DateTaken", "Please Enter Valid Date");
+                }
 
-            ApplicationUser user = await GetLoggedInUser();
-
-            if (imageView.ImageFile == null || imageView.ImageFile.Length <= 0)
-            {
-                ViewBag.Message = "No image file specified!";
                 imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
                 return View(imageView);
             }
 
+
+            if (imageView.ImageFile == null || imageView.ImageFile.Length <= 0)
+            {
+                ViewBag.ImageErrorMessage = "No image file specified!";
+                ViewBag.ImageNotUploaded = true;
+                imageView.Tags = new SelectList(db.Tags, "Id", "Name", 1);
+                return View(imageView);
+            }
+
+            var user = await GetLoggedInUser();
+            if (user == null) return RedirectToAction("AccessDenied", "Account");
+
             Image image = null;
 
             // TODO save image metadata in the database 
-
-
+            var selectedTag = await db.Tags.SingleOrDefaultAsync(x => x.Id.Equals(imageView.TagId));
+            image = new Image
+            {
+                Caption = imageView.Caption,
+                Description = imageView.Description,
+                DateTaken = imageView.DateTaken,
+                UserId = user.Id,
+                TagId = selectedTag.Id,
+                User = user,
+                Tag = selectedTag
+            };
+            await db.Images.AddAsync(image);
+            await db.SaveChangesAsync();
+            logger.LogDebug("Image {0} successfully uploaded for user {1}",image.Id,user.UserName);
+            await this.logs.AddLogEntryAsync(user.UserName, imageView);
             // end TODO
 
             // Save image file on disk
-            await images.SaveFileAsync(imageView.ImageFile, image.Id);
+            await this.images.SaveFileAsync(imageView.ImageFile, image.Id);
 
             return RedirectToAction("Details", new { Id = image.Id });
         }
@@ -180,6 +204,8 @@ namespace ImageSharingWithCloudStorage.Controllers
             }
 
             logger.LogDebug("Saving changes to image " + Id);
+            await this.logs.AddLogEntryAsync(user.UserName, imageView);
+
             Image image = db.Images.Find(Id);
             if (image == null)
             {
@@ -276,8 +302,11 @@ namespace ImageSharingWithCloudStorage.Controllers
             CheckAda();
 
             // TODO Return form for selecting a user from a drop-down list
+            var user = await GetLoggedInUser();
 
-            return null;
+            IList<Image> images = ApprovedImages().Include(im => im.User).Include(im => im.Tag).ToList();
+            ViewBag.Username = user.UserName;
+            return View(images);
             // End TODO
 
         }
@@ -287,9 +316,19 @@ namespace ImageSharingWithCloudStorage.Controllers
         {
             CheckAda();
 
-            // TODO list all images uploaded by the user in userView (see List By Tag)
+            var loggedinuser = await GetLoggedInUser();
+            if (loggedinuser == null) return RedirectToAction("AccessDenied", "Account");
 
-            return null;
+            // TODO-DONE list all images uploaded by the user in userView (see List By Tag)
+            var user = await userManager.FindByIdAsync(userView.Id);
+            if (user == null) return RedirectToAction("Error", "Home", new { ErrId = "ListByUser" });
+            ViewBag.Username = loggedinuser.UserName;
+            /*
+             * Eager loading of related entities
+             */
+            var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User).Include(t => t.Tag)
+                .ToList();
+            return View("ListAll", user.Images);
             // End TODO
 
 

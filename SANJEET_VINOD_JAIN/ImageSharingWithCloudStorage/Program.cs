@@ -35,7 +35,7 @@ builder.Logging.AddDebug();
 builder.Logging.AddAzureWebAppDiagnostics();
 
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDb");
-// TODO Add database context & enable saving data in the log (not for production use!)
+// TODO-DONE Add database context & enable saving data in the log (not for production use!)
 // For SQL Database, allow for db connection sometimes being lost
 // options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -47,7 +47,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Replacement for database error page
 if (builder.Environment.IsDevelopment()) builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-// TODO add Identity service
+// TODO-DONE add Identity service
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
@@ -98,7 +98,7 @@ app.UseEndpoints(endpoints =>
 });
 
 /*
- * TODO Seed the database: We need to manually inject the dependencies of the initalizer.
+ * TODO-DONE Seed the database: We need to manually inject the dependencies of the initalizer.
  * EF services are scoped to a request, so we must create a temporary scope for its injection.
  * More on dependency injection: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection
  * More on DbContext lifetime: https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/

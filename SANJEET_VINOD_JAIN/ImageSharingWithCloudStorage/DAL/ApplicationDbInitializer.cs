@@ -50,7 +50,7 @@ namespace ImageSharingWithCloudStorage.DAL
                 logger.LogError("Failed to create User role!");
             }
 
-            // TODO add other roles
+            // TODO-DONE add other roles
             idResult = await CreateRole(serviceProvider, "Admin");
             if (!idResult.Succeeded)
             {
@@ -77,7 +77,7 @@ namespace ImageSharingWithCloudStorage.DAL
                 logger.LogError("Failed to create nixon user!");
             }
 
-            // TODO add other users and assign more roles
+            // TODO-DONE add other users and assign more roles
             logger.LogInformation("Adding user: sanjeet");
             idResult = await CreateAccount(serviceProvider, "sanjeet@sit.edu", "sit123", "User");
             if (!idResult.Succeeded)
@@ -105,7 +105,7 @@ namespace ImageSharingWithCloudStorage.DAL
             Tag architecture = new Tag { Name = "architecture" };
             db.Tags.Add(architecture);
 
-            // TODO add other tags
+            // TODO-DONE add other tags
             Tag custom = new Tag { Name = "custom" };
             db.Tags.Add(custom);
 

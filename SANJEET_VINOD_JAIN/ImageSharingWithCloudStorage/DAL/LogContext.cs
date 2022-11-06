@@ -24,7 +24,7 @@ namespace ImageSharingWithCloudStorage.DAL
             this.logger = logger;
 
             /*
-             * TODO Initialize the table.  The connection string is logEntryDb in options.
+             * TODO-DONE Initialize the table.  The connection string is logEntryDb in options.
              */
             string connectionString = options.Value.LogEntryDb;
             this.table = GetTable(connectionString);
@@ -58,7 +58,7 @@ namespace ImageSharingWithCloudStorage.DAL
             // Retrieve storage account information from connection string.
             CloudStorageAccount storageAccount = CreateStorageAccountFromConnectionString(storageConnectionString);
 
-            // TODO Create a table client for interacting with the table service 
+            // TODO-DONE Create a table client for interacting with the table service 
             var client = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
             CloudTable table = client.GetTableReference(LOG_TABLE_NAME);
             table.CreateIfNotExists();
@@ -91,7 +91,7 @@ namespace ImageSharingWithCloudStorage.DAL
             logger.LogInformation("Adding log entry for image: {0}", image.Id);
 
 
-            // TODO add a log entry for this image view
+            // TODO-DONE add a log entry for this image view
             var insertOperation = TableOperation.Insert(entry);
             TableResult result = await table.ExecuteAsync(insertOperation);
 
