@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
-
 @{
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
     var showBanner = !consentFeature?.CanTrack ?? false;
@@ -17,11 +16,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <span class="navbar-brand"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
+                <span class="navbar-brand">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                </span>
             </div>
             <div class="collapse navbar-collapse">
                 <p class="navbar-text">
-                    Use this space to summarize your privacy and cookie use policy.
+                    We use necessary cookies to make our site work. We’d like to set additional cookies to understand site usage, make site improvements and to remember your settings.
                 </p>
                 <div class="navbar-right">
                     <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>

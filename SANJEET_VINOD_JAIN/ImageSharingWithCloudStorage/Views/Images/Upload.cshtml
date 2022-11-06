@@ -6,37 +6,49 @@
 
 <h2>@ViewBag.Title</h2>
 
-<form method="post" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
+<form class="form-group" method="post" asp-action="Upload" asp-controller="Images" enctype="multipart/form-data">
 
 
     <fieldset>
         <legend>Enter Image Information</legend>
         <p>
-            Caption: <input asp-for="Caption" /><span asp-validation-for="Caption" />
+            Caption: <input asp-for="Caption" />
+            <br/>
+            <span class="text-danger" asp-validation-for="Caption"></span>
         </p>
         <p>Select a tag: 
             <select asp-for="TagId" asp-items="Model.Tags">
                 <option disabled selected value="">Select a tag</option>
             </select>
+            <br />
+            <span class="text-danger" asp-validation-for="TagId"></span>
         </p>
         <p>
             Description:<br />
             <textarea asp-for="Description" cols="40" rows="5">
                 Enter description here.
             </textarea>
+            <br/>
+            <span class="text-danger" asp-validation-for="Description"></span>
+
         </p>
         <p>
             Date taken: <input asp-for="DateTaken" /><span asp-validation-for="DateTaken" />
+            <br/>
+            <span class="text-danger" asp-validation-for="DateTaken"></span>
         </p>
         <p>
-            <input asp-for="ImageFile" />
+            <input asp-for="ImageFile"/>
+            @if (ViewBag.ImageNotUploaded)
+            {
+                <br/>
+                <span class="text-danger">@ViewBag.ImageErrorMessage</span>
+            }
+
         </p>
         <p>
             <input type="submit" value="Upload" />
         </p>
     </fieldset>
-
-    <p>@ViewBag.Message</p>
-    <p><div class="text-danger" asp-validation-summary="ModelOnly"></div></p>
 
 </form>
