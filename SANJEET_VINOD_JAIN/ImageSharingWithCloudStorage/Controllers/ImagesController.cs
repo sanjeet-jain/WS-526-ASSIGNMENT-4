@@ -176,7 +176,8 @@ public class ImagesController : BaseController
         imageView.Description = image.Description;
         imageView.DateTaken = image.DateTaken;
         imageView.Uri = images.ImageUri(Url, image.Id);
-
+        var thisUser = User.Identity.Name;
+        await logs.AddLogEntryAsync(thisUser, imageView);
         return View("Edit", imageView);
     }
 
@@ -189,6 +190,7 @@ public class ImagesController : BaseController
 
         if (!ModelState.IsValid)
         {
+            imageView.Uri = images.ImageUri(Url, db.Images.Find(Id).Id);
             ViewBag.Message = "Please correct the errors on the page";
             imageView.Id = Id;
             imageView.Tags = new SelectList(db.Tags, "Id", "Name", imageView.TagId);
@@ -240,6 +242,8 @@ public class ImagesController : BaseController
         db.Entry(image).Reference(i => i.Tag).Load();
         imageView.TagName = image.Tag.Name;
         imageView.Username = image.User.UserName;
+        var thisUser = User.Identity.Name;
+        await logs.AddLogEntryAsync(thisUser, imageView);
         return View(imageView);
     }
 
