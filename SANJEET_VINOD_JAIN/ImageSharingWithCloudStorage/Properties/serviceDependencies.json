@@ -1,19 +1,20 @@
 {
   "dependencies": {
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:ApplicationDb:azure"
-    },
     "secrets1": {
       "type": "secrets",
       "dynamicId": null
     },
     "cosmosdb1": {
       "type": "cosmosdb",
-      "connectionId": "123",
+      "connectionId": "ConnectionStrings:LogEntryDb",
       "dynamicId": null
     },
-    "storage3": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:ApplicationDb",
+      "dynamicId": null
+    },
+    "storage1": {
       "type": "storage",
       "connectionId": "ConnectionStrings:ImageDb",
       "dynamicId": null
