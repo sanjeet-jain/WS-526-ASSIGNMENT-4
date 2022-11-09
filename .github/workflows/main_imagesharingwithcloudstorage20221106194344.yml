@@ -16,10 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "3.1.301"
+          include-prerelease: true
+
+      - name: Set up .NET framework 6
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
