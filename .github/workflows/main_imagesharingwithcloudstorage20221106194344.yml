@@ -16,10 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up .NET Core
+      - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "3.1.301"
+          dotnet-version: "6"
           include-prerelease: true
 
       - name: Build with dotnet
