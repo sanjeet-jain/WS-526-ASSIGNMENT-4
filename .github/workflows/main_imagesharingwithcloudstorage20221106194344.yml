@@ -19,7 +19,13 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.301'
+          dotnet-version: "3.1.301"
+          include-prerelease: true
+
+      - name: Set up .NET frameowrk
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.10"
           include-prerelease: true
 
       - name: Build with dotnet
@@ -38,7 +44,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,7 +57,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'ImageSharingWithCloudStorage20221106194344'
-          slot-name: 'Production'
+          app-name: "ImageSharingWithCloudStorage20221106194344"
+          slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7A1674371BE84C2FAC2C42D321DCEE29 }}
           package: .
