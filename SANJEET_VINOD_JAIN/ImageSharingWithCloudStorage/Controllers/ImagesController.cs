@@ -286,7 +286,7 @@ public class ImagesController : BaseController
         var user = await GetLoggedInUser();
 
         var userView = new ListByUserModel();
-        userView.Users = new SelectList(ApprovedImages().Include(im => im.User).Include(im => im.Tag).ToList());
+        userView.Users = new SelectList(userManager.Users, "Id", "UserName", 1);
         ViewBag.Username = user.UserName;
         return View(userView);
         // End TODO
@@ -307,8 +307,7 @@ public class ImagesController : BaseController
         /*
          * Eager loading of related entities
          */
-        var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User)
-            .Include(t => t.Tag)
+        var images = db.Entry(user).Collection(t => t.Images).Query().Where(im => im.Approved).Include(im => im.User).Include(t => t.Tag)
             .ToList();
         return View("ListAll", user.Images);
         // End TODO
