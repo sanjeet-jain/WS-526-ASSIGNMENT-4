@@ -19,11 +19,12 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.301'
+          dotnet-version: "3.1.301"
           include-prerelease: true
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: SANJEET-VINOD-JAIN/myapp
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
@@ -38,7 +39,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,7 +52,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'ImageSharingWithCloudStorage20221106194344'
-          slot-name: 'Production'
+          app-name: "ImageSharingWithCloudStorage20221106194344"
+          slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E1095C6387224B4982351B3A0FA19995 }}
           package: .
