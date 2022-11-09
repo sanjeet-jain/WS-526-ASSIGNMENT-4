@@ -28,13 +28,10 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Build with dotnet
-        with:
-          working-directory: ./SANJEET-VINOD-JAIN
         run: dotnet build --configuration Release
+          working-directory: SANJEET-VINOD-JAIN
 
       - name: dotnet publish
-        with:
-          working-directory: ./SANJEET-VINOD-JAIN
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
