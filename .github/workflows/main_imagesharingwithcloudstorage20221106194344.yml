@@ -29,7 +29,7 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
-        working-directory: SANJEET-VINOD-JAIN\ImageSharingWithCloudStorage\
+        working-directory: SANJEET-VINOD-JAIN\ImageSharingWithCloudStorage
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/ImageSharingWithCloudStorage
