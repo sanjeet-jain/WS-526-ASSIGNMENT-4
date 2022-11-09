@@ -29,15 +29,19 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        with:
+          working-directory: ./SANJEET-VINOD-JAIN
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/SANJEET-VINOD-JAIN/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        with:
+          working-directory: ./SANJEET-VINOD-JAIN
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}//SANJEET-VINOD-JAIN/myapp
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
